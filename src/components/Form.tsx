@@ -9,6 +9,7 @@ import {
   Input,
   Portal,
   Select,
+  Switch,
   Text,
 } from "@chakra-ui/react";
 
@@ -20,6 +21,9 @@ export const Form = () => {
     framework: z.string({ message: "Framework is required" }).array(),
     checkbox: z.boolean().refine((value) => value === true, {
       message: "Checkbox must be checked",
+    }),
+    switch: z.boolean().refine((value) => value === true, {
+      message: "Switch must be toggled on",
     }),
   });
 
@@ -99,8 +103,6 @@ export const Form = () => {
 
         <Field.Root invalid={!!errors.checkbox}>
           <HStack align="flex-start">
-            <Text>Testowy label checkbox</Text>
-
             <Checkbox.Root
               invalid={!!errors.checkbox}
               variant="outline"
@@ -110,11 +112,22 @@ export const Form = () => {
               <Checkbox.Control>
                 <Checkbox.Indicator />
               </Checkbox.Control>
-              <Checkbox.Label />
+              <Checkbox.Label>Testowy label checkbox</Checkbox.Label>
             </Checkbox.Root>
 
             <Field.ErrorText>{errors.checkbox?.message}</Field.ErrorText>
           </HStack>
+        </Field.Root>
+
+        <Field.Root invalid={!!errors.switch}>
+          <Switch.Root {...register("switch")}>
+            <Switch.HiddenInput />
+            <Switch.Control>
+              <Switch.Thumb />
+            </Switch.Control>
+            <Switch.Label>Testowy label switch</Switch.Label>
+          </Switch.Root>
+          <Field.ErrorText>{errors.switch?.message}</Field.ErrorText>
         </Field.Root>
       </form>
     </>
