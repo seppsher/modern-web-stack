@@ -2,19 +2,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import {
+  Checkbox,
   createListCollection,
   Field,
+  HStack,
   Input,
   Portal,
   Select,
+  Text,
 } from "@chakra-ui/react";
 
 export const Form = () => {
   type FormData = z.infer<typeof formSchema>;
 
   const formSchema = z.object({
-    username: z.string().min(1, "Name is required").max(20, "Name is too long"),
+    username: z.string().min(3, "Name is required").max(20, "Name is too long"),
     framework: z.string({ message: "Framework is required" }).array(),
+    checkbox: z.boolean().refine((value) => value === true, {
+      message: "Checkbox must be checked",
+    }),
   });
 
   const {
@@ -89,6 +95,26 @@ export const Form = () => {
             )}
           />
           <Field.ErrorText>{errors.framework?.message}</Field.ErrorText>
+        </Field.Root>
+
+        <Field.Root invalid={!!errors.checkbox}>
+          <HStack align="flex-start">
+            <Text>Testowy label checkbox</Text>
+
+            <Checkbox.Root
+              invalid={!!errors.checkbox}
+              variant="outline"
+              {...register("checkbox")}
+            >
+              <Checkbox.HiddenInput />
+              <Checkbox.Control>
+                <Checkbox.Indicator />
+              </Checkbox.Control>
+              <Checkbox.Label />
+            </Checkbox.Root>
+
+            <Field.ErrorText>{errors.checkbox?.message}</Field.ErrorText>
+          </HStack>
         </Field.Root>
       </form>
     </>
