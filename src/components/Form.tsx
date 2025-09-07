@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
@@ -77,7 +79,7 @@ export const Form = () => {
                 <Select.HiddenSelect />
                 <Select.Control>
                   <Select.Trigger>
-                    <Select.ValueText placeholder="Select framework" />
+                    <Select.ValueText />
                   </Select.Trigger>
                   <Select.IndicatorGroup>
                     <Select.Indicator />
