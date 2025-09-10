@@ -6,6 +6,8 @@ import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
+import globals from 'globals';
+
 export default [
   js.configs.recommended,
 
@@ -19,6 +21,13 @@ export default [
         ecmaFeatures: {
           jsx: true,
         },
+      },
+      globals: {
+        HTMLSpanElement: 'readonly',
+        HTMLElement: 'readonly',
+        Document: 'readonly',
+        Window: 'readonly',
+        HTMLButtonElement: 'readonly',
       },
     },
     plugins: {
