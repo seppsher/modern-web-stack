@@ -1,4 +1,3 @@
-// eslint.config.js
 import js from '@eslint/js';
 import typescriptEslintParser from '@typescript-eslint/parser';
 import typescriptEslintPlugin from '@typescript-eslint/eslint-plugin';
@@ -8,10 +7,8 @@ import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
 export default [
-  // Podstawowa konfiguracja ESLint
   js.configs.recommended,
 
-  // Konfiguracja dla TypeScript i React
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -36,10 +33,8 @@ export default [
       ...reactHooksPlugin.configs.recommended.rules,
       ...prettierConfig.rules,
 
-      // Reguły Prettier
       'prettier/prettier': 'error',
 
-      // Własne reguły
       '@typescript-eslint/no-unused-vars': 'error',
       '@typescript-eslint/no-explicit-any': 'warn',
       'react/react-in-jsx-scope': 'off',
@@ -52,7 +47,6 @@ export default [
     },
   },
 
-  // Ignorowane pliki
   {
     ignores: [
       'node_modules/',
