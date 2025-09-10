@@ -1,11 +1,11 @@
-import "./App.css";
-import { Provider } from "./components/ui/provider";
-import { Routes as RoutesEnum } from "./enums/Routes";
-import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { About } from "./components/About";
-import { Home } from "./components/Home";
-import { UserDetails } from "./components/UserDetails";
-import { Form } from "./components/Form";
+import './App.css';
+import { Provider } from './components/ui/provider';
+import { Routes as RoutesEnum } from './enums/Routes';
+import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { About } from './components/About';
+import { Home } from './components/Home';
+import { UserDetails } from './components/UserDetails';
+import { Form } from './components/Form';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <nav>
           <Link to={RoutesEnum.Home}>Home</Link>
           <Link to={RoutesEnum.About}>About</Link>
-          <Link to={RoutesEnum.User + "/123"}>User</Link>
+          <Link to={RoutesEnum.User + '/123'}>User</Link>
           <Link to={RoutesEnum.Form}>Form</Link>
         </nav>
 
