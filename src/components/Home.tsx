@@ -1,6 +1,6 @@
-import { Button, HStack } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
-import { Routes } from "../enums/Routes";
+import { Button, HStack } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { Routes } from '../enums/Routes';
 
 export const Home = () => {
   const navigate = useNavigate();

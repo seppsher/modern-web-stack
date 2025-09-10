@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Controller, useForm } from 'react-hook-form';
 import {
   Checkbox,
   createListCollection,
@@ -12,20 +12,19 @@ import {
   Portal,
   Select,
   Switch,
-  Text,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export const Form = () => {
   type FormData = z.infer<typeof formSchema>;
 
   const formSchema = z.object({
-    username: z.string().min(3, "Name is required").max(20, "Name is too long"),
-    framework: z.string({ message: "Framework is required" }).array(),
+    username: z.string().min(3, 'Name is required').max(20, 'Name is too long'),
+    framework: z.string({ message: 'Framework is required' }).array(),
     checkbox: z.boolean().refine((value) => value === true, {
-      message: "Checkbox must be checked",
+      message: 'Checkbox must be checked',
     }),
     switch: z.boolean().refine((value) => value === true, {
-      message: "Switch must be toggled on",
+      message: 'Switch must be toggled on',
     }),
   });
 
@@ -40,24 +39,21 @@ export const Form = () => {
 
   const frameworks = createListCollection({
     items: [
-      { label: "React.js", value: "react" },
-      { label: "Vue.js", value: "vue" },
-      { label: "Angular", value: "angular" },
-      { label: "Svelte", value: "svelte" },
+      { label: 'React.js', value: 'react' },
+      { label: 'Vue.js', value: 'vue' },
+      { label: 'Angular', value: 'angular' },
+      { label: 'Svelte', value: 'svelte' },
     ],
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    alert("Formularz wysłany pomyślnie!");
-  };
+  const onSubmit = () => {};
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Field.Root invalid={!!errors.username}>
           <Field.Label>Username</Field.Label>
-          <Input {...register("username")} placeholder="Enter your username" />
+          <Input {...register('username')} placeholder="Enter your username" />
           {errors.username && (
             <Field.ErrorText>{errors.username.message}</Field.ErrorText>
           )}
@@ -108,7 +104,7 @@ export const Form = () => {
             <Checkbox.Root
               invalid={!!errors.checkbox}
               variant="outline"
-              {...register("checkbox")}
+              {...register('checkbox')}
             >
               <Checkbox.HiddenInput />
               <Checkbox.Control>
@@ -122,7 +118,7 @@ export const Form = () => {
         </Field.Root>
 
         <Field.Root invalid={!!errors.switch}>
-          <Switch.Root {...register("switch")}>
+          <Switch.Root {...register('switch')}>
             <Switch.HiddenInput />
             <Switch.Control>
               <Switch.Thumb />
