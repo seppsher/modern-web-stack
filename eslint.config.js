@@ -65,6 +65,7 @@ export default [
       '*.config.js',
       'build',
       'next-env.d.ts',
+      'components/ui',
     ],
   },
 ];
