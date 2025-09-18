@@ -16,9 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-      </head>
+      <head></head>
       <body>
         <div id="root">{children}</div>
       </body>
