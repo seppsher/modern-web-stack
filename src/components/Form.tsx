@@ -4,19 +4,30 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import {
+  Accordion,
+  Box,
   Button,
   Checkbox,
+  CloseButton,
   createListCollection,
+  Dialog,
   Field,
+  FileUpload,
+  HStack,
+  Icon,
   Input,
   NumberInput,
   Portal,
+  RadioGroup,
   Select,
   Switch,
   Textarea,
   VStack,
 } from '@chakra-ui/react';
 import { toaster } from './ui/toaster';
+import { LuUpload } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
+import { Routes } from '@/enums/Routes';
 
 export const Form = () => {
   type FormData = z.infer<typeof formSchema>;
@@ -35,6 +46,11 @@ export const Form = () => {
       .string()
       .max(10, 'Textarea must be max 10 characters long')
       .optional(),
+    radio: z.string().refine((value) => value != null, {
+      message: 'Radio must be selected',
+    }),
+    // eslint-disable-next-line no-undef
+    files: z.array(z.instanceof(File)).min(1, 'At least one file is required'),
   });
 
   const form = useForm<FormData>({
@@ -45,6 +61,8 @@ export const Form = () => {
       number: 10,
     },
   });
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -68,6 +86,12 @@ export const Form = () => {
       type: 'success',
     });
   };
+
+  const radioItems = [
+    { label: 'Value 1', value: 'value1' },
+    { label: 'Value 2', value: 'value2' },
+    { label: 'Value 3', value: 'value3' },
+  ];
 
   return (
     <>
@@ -188,6 +212,136 @@ export const Form = () => {
             </NumberInput.Root>
             <Field.ErrorText>{errors.number?.message}</Field.ErrorText>
           </Field.Root>
+
+          <Field.Root invalid={!!errors.radio}>
+            <Field.Label>Radio label</Field.Label>
+            <Controller
+              name="radio"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup.Root
+                  key="solid"
+                  variant="solid"
+                  name={field.name}
+                  value={field.value}
+                  onValueChange={({ value }) => {
+                    field.onChange(value);
+                  }}
+                >
+                  <HStack gap="6">
+                    {radioItems.map((item) => (
+                      <RadioGroup.Item key={item.value} value={item.value}>
+                        <RadioGroup.ItemHiddenInput onBlur={field.onBlur} />
+                        <RadioGroup.ItemIndicator />
+                        <RadioGroup.ItemText>{item.label}</RadioGroup.ItemText>
+                      </RadioGroup.Item>
+                    ))}
+                  </HStack>
+                </RadioGroup.Root>
+              )}
+            />
+            <Field.ErrorText>{errors.radio?.message}</Field.ErrorText>
+          </Field.Root>
+
+          <Field.Root invalid={!!errors.files}>
+            <Field.Label>Upload file zone</Field.Label>
+
+            <Controller
+              name="files"
+              control={control}
+              render={() => (
+                <FileUpload.Root maxW="xl" alignItems="stretch" maxFiles={10}>
+                  <FileUpload.HiddenInput />
+                  <FileUpload.Dropzone>
+                    <Icon size="md" color="fg.muted">
+                      <LuUpload />
+                    </Icon>
+                    <FileUpload.DropzoneContent>
+                      <Box>Drag and drop files here</Box>
+                      <Box color="fg.muted">.png, .jpg up to 5MB</Box>
+                    </FileUpload.DropzoneContent>
+                  </FileUpload.Dropzone>
+                  <FileUpload.List />
+
+                  <FileUpload.ClearTrigger asChild>
+                    <CloseButton
+                      me="-1"
+                      size="xs"
+                      variant="plain"
+                      focusVisibleRing="inside"
+                      focusRingWidth="2px"
+                      pointerEvents="auto"
+                    />
+                  </FileUpload.ClearTrigger>
+                </FileUpload.Root>
+              )}
+            />
+
+            <Field.ErrorText>{errors.files?.message}</Field.ErrorText>
+          </Field.Root>
+
+          <Accordion.Root collapsible defaultValue={['b']}>
+            <Accordion.Item value="a">
+              <Accordion.ItemTrigger>
+                <h1>Expand item to show dialog</h1>
+                <Accordion.ItemIndicator />
+              </Accordion.ItemTrigger>
+              <Accordion.ItemContent>
+                <Accordion.ItemBody>
+                  <div>Lorem ipsum dolor sit amet</div>
+                  <Dialog.Root>
+                    <Dialog.Trigger asChild>
+                      <Button variant="outline" size="sm">
+                        Open Dialog
+                      </Button>
+                    </Dialog.Trigger>
+
+                    <Portal>
+                      <Dialog.Backdrop />
+                      <Dialog.Positioner>
+                        <Dialog.Content>
+                          <Dialog.Context>
+                            {(store) => (
+                              <Dialog.Body pt="6" spaceY="3">
+                                <p>
+                                  Dialog is open:{' '}
+                                  {store.open ? 'true' : 'false'}
+                                </p>
+                                <p>
+                                  Lorem ipsum dolor sit amet, consectetur
+                                  adipiscing elit. Sed do eiusmod tempor
+                                  incididunt ut labore et dolore magna aliqua.
+                                </p>
+                              </Dialog.Body>
+                            )}
+                          </Dialog.Context>
+
+                          <Dialog.Footer>
+                            <Button
+                              colorPalette="red"
+                              onClick={() => {
+                                navigate(Routes.About);
+                              }}
+                            >
+                              Redirect to Home Page
+                            </Button>
+
+                            <Dialog.ActionTrigger asChild>
+                              <Button colorPalette="green">Save changes</Button>
+                            </Dialog.ActionTrigger>
+                          </Dialog.Footer>
+
+                          <Dialog.CloseTrigger asChild>
+                            <CloseButton size="sm" />
+                          </Dialog.CloseTrigger>
+                        </Dialog.Content>
+                      </Dialog.Positioner>
+                    </Portal>
+                  </Dialog.Root>
+                </Accordion.ItemBody>
+              </Accordion.ItemContent>
+            </Accordion.Item>
+          </Accordion.Root>
 
           <Button onClick={handleSubmit(onSubmit)}>Wyślij</Button>
         </VStack>
