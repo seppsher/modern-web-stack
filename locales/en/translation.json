@@ -1,0 +1,60 @@
+{
+  "menu": {
+    "home": "Home",
+    "about": "About",
+    "user": "User",
+    "form": "Form",
+    "language": {
+      "english": "English",
+      "polish": "Polish"
+    }
+  },
+  "form": {
+    "username": {
+      "label": "Username",
+      "placeholder": "Enter your username"
+    },
+    "framework": {
+      "label": "Framework"
+    },
+    "checkbox": {
+      "label": "Test checkbox label"
+    },
+    "switch": {
+      "label": "Test switch label"
+    },
+    "number": {
+      "label": "Test number label"
+    },
+    "button": {
+      "label": "Submit"
+    },
+    "submit": {
+      "success": "Form submitted successfully"
+    }
+  },
+  "about": {
+    "header": "About Us",
+    "button": "Click me"
+  },
+  "home": {
+    "header": "Home",
+    "button": "Navigate to About page"
+  },
+  "user": {
+    "header": "User ID: {{id}}"
+  },
+  "validations": {
+    "required": "This field is required",
+    "minLength": "Value is too short",
+    "maxLength": "Value is too long",
+    "min": "Value is too low",
+    "max": "Value is too high",
+    "checkbox": {
+      "error": "Checkbox must be checked"
+    },
+    "switch": {
+      "error": "Switch must be on"
+    }
+  }
+}

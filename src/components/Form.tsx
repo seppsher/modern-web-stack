@@ -17,24 +17,27 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { toaster } from './ui/toaster';
+import { useTranslation } from 'react-i18next';
 
 export const Form = () => {
   type FormData = z.infer<typeof formSchema>;
 
+  const { t } = useTranslation();
+
   const formSchema = z.object({
-    username: z.string().min(3, 'Name is required').max(20, 'Name is too long'),
-    framework: z.string({ message: 'Framework is required' }).array(),
+    username: z
+      .string()
+      .min(3, t('validations.required'))
+      .max(20, t('validations.maxLength')),
+    framework: z.string({ message: t('validations.required') }).array(),
     checkbox: z.boolean().refine((value) => value === true, {
-      message: 'Checkbox must be checked',
+      message: t('validations.checkbox.error'),
     }),
     switch: z.boolean().refine((value) => value === true, {
-      message: 'Switch must be toggled on',
+      message: t('validations.switch.error'),
     }),
     number: z.number().gte(10),
-    textarea: z
-      .string()
-      .max(10, 'Textarea must be max 10 characters long')
-      .optional(),
+    textarea: z.string().max(10, t('validations.maxLength')).optional(),
   });
 
   const form = useForm<FormData>({
@@ -64,7 +67,7 @@ export const Form = () => {
 
   const onSubmit = () => {
     toaster.create({
-      description: 'Form saved successfully',
+      description: t('form.submit.success'),
       type: 'success',
     });
   };
@@ -74,10 +77,10 @@ export const Form = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <VStack gap={6} align="stretch" width={600} m="0 auto">
           <Field.Root invalid={!!errors.username}>
-            <Field.Label>Username</Field.Label>
+            <Field.Label>{t('form.username.label')}</Field.Label>
             <Input
               {...register('username')}
-              placeholder="Enter your username"
+              placeholder={t('form.username.placeholder')}
             />
             {errors.username && (
               <Field.ErrorText>{errors.username.message}</Field.ErrorText>
@@ -85,7 +88,7 @@ export const Form = () => {
           </Field.Root>
 
           <Field.Root invalid={!!errors.framework}>
-            <Field.Label>Framework</Field.Label>
+            <Field.Label>{t('form.framework.label')}</Field.Label>
             <Controller
               control={control}
               name="framework"
@@ -139,7 +142,7 @@ export const Form = () => {
                   <Checkbox.Control>
                     <Checkbox.Indicator />
                   </Checkbox.Control>
-                  <Checkbox.Label>Testowy label checkbox</Checkbox.Label>
+                  <Checkbox.Label>{t('form.checkbox.label')}</Checkbox.Label>
                 </Checkbox.Root>
               )}
             ></Controller>
@@ -160,7 +163,7 @@ export const Form = () => {
                   <Switch.Control>
                     <Switch.Thumb />
                   </Switch.Control>
-                  <Switch.Label>Testowy label switch</Switch.Label>
+                  <Switch.Label>{t('form.switch.label')}</Switch.Label>
                 </Switch.Root>
               )}
             ></Controller>
@@ -178,7 +181,7 @@ export const Form = () => {
           </Field.Root>
 
           <Field.Root invalid={!!errors.number}>
-            <Field.Label>Testowy label number</Field.Label>
+            <Field.Label>{t('form.number.label')}</Field.Label>
 
             <NumberInput.Root>
               <NumberInput.Control />
@@ -189,7 +192,9 @@ export const Form = () => {
             <Field.ErrorText>{errors.number?.message}</Field.ErrorText>
           </Field.Root>
 
-          <Button onClick={handleSubmit(onSubmit)}>Wyślij</Button>
+          <Button onClick={handleSubmit(onSubmit)}>
+            {t('form.button.label')}
+          </Button>
         </VStack>
       </form>
     </>

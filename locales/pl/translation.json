@@ -1,0 +1,60 @@
+{
+  "menu": {
+    "home": "Strona główna",
+    "about": "O nas",
+    "user": "Użytkownik",
+    "form": "Formularz",
+    "language": {
+      "english": "Angielski",
+      "polish": "Polski"
+    }
+  },
+  "form": {
+    "username": {
+      "label": "Nazwa użytkownika",
+      "placeholder": "Wpisz swoją nazwę użytkownika"
+    },
+    "framework": {
+      "label": "Framework"
+    },
+    "checkbox": {
+      "label": "Testowy label checkbox"
+    },
+    "switch": {
+      "label": "Testowy label switch"
+    },
+    "number": {
+      "label": "Testowy label number"
+    },
+    "button": {
+      "label": "Wyślij"
+    },
+    "submit": {
+      "success": "Formularz został pomyślnie zapisany"
+    }
+  },
+  "about": {
+    "header": "O nas",
+    "button": "Kliknij mnie"
+  },
+  "home": {
+    "header": "Strona główna",
+    "button": "Przejdź do strony O nas"
+  },
+  "user": {
+    "header": "ID użytkownika: {{id}}"
+  },
+  "validations": {
+    "required": "To pole jest wymagane",
+    "minLength": "Wartość jest za krótka",
+    "maxLength": "Wartość jest za długa",
+    "min": "Wartość jest zbyt niska",
+    "max": "Wartość jest zbyt wysoka",
+    "checkbox": {
+      "error": "Checkbox musi być zaznaczony"
+    },
+    "switch": {
+      "error": "Switch musi być włączony"
+    }
+  }
+}

@@ -8,26 +8,42 @@ import { UserDetails } from './components/UserDetails';
 import { Form } from './components/Form';
 import { HStack, Button, Container } from '@chakra-ui/react';
 import { Toaster } from './components/ui/toaster';
+import '../i18n';
+import { useTranslation } from 'react-i18next';
 
 function App() {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
   return (
     <Provider>
       <Router>
         <Container>
           <HStack mb={20}>
             <Button variant="subtle">
-              <Link to={RoutesEnum.Home}>Home</Link>
+              <Link to={RoutesEnum.Home}>{t('menu.home')}</Link>
             </Button>
             <Button variant="subtle">
-              <Link to={RoutesEnum.About}>About</Link>
+              <Link to={RoutesEnum.About}>{t('menu.about')}</Link>
             </Button>
             <Button variant="subtle">
-              <Link to={RoutesEnum.User + '/123'}>User</Link>
+              <Link to={RoutesEnum.User + '/123'}>{t('menu.user')}</Link>
             </Button>
             <Button variant="subtle">
-              <Link to={RoutesEnum.Form}>Form</Link>
+              <Link to={RoutesEnum.Form}>{t('menu.form')}</Link>
+            </Button>
+
+            <Button onClick={() => changeLanguage('en')}>
+              {t('menu.language.english')}
+            </Button>
+            <Button onClick={() => changeLanguage('pl')}>
+              {t('menu.language.polish')}
             </Button>
           </HStack>
+
           <Routes>
             <Route path={RoutesEnum.Home} element={<Home />} />
             <Route path={RoutesEnum.About} element={<About />} />
