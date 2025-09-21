@@ -7,14 +7,6 @@ This project is a starter template for building React applications using Next.js
 - **Node.js** version 23.11.0 or newer
 - **npm** (usually comes with Node.js)
 
-## Project Dependencies
-
-- **next** – framework for SSR and SSG with React (`^15.5.2`)
-- **react** and **react-dom** – library for building user interfaces and its DOM integration (`^19.1.0`)
-- **typescript** – static type checking for JavaScript (`^5`)
-- **@types/react** – TypeScript type definitions for React (`^19.1.2`)
-- **@types/node** – TypeScript type definitions for Node.js (`^16.18.126`)
-
 ## Getting Started
 
 1. Install dependencies:
@@ -29,7 +21,7 @@ npm install
 npm run dev
 ```
 
-## Building and Running
+## Building and Running (production)
 
 - Build the production application:
   ```bash
@@ -37,12 +29,12 @@ npm run dev
   ```
 - Start the application after building:
   ```bash
-  npm start
+  npm serve
   ```
 
 ## Testing
 
-If configured, run tests with:
+Run tests with:
 
 ```bash
 npm test
