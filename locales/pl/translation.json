@@ -31,6 +31,27 @@
     },
     "submit": {
       "success": "Formularz został pomyślnie zapisany"
+    },
+    "radio": {
+      "label": "Label radio"
+    },
+    "files": {
+      "label": "Strefa przesyłania plików",
+      "dragAndDrop": "Przeciągnij i upuść tutaj pliki",
+      "extensions": ".png, .jpg do 5MB"
+    },
+    "accordion": {
+      "header": "Rozwiń element, aby wyświetlić okno dialogowe",
+      "body": "Lorem ipsum dolor sit amet",
+      "button": { "label": "Otwórz okno dialogowe" }
+    },
+    "dialog": {
+      "header": "Okno dialogowe jest {{id}}",
+      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "button": {
+        "cancel": { "label": "Przekieruj do strony głównej" },
+        "confirm": { "label": "Zapisz" }
+      }
     }
   },
   "about": {

@@ -31,6 +31,27 @@
     },
     "submit": {
       "success": "Form submitted successfully"
+    },
+    "radio": {
+      "label": "Label radio"
+    },
+    "files": {
+      "label": "File Upload Area",
+      "dragAndDrop": "Drag and drop files here",
+      "extensions": ".png, .jpg up to 5MB"
+    },
+    "accordion": {
+      "header": "Expand item to view dialog",
+      "body": "Lorem ipsum dolor sit amet",
+      "button": { "label": "Open dialog" }
+    },
+    "dialog": {
+      "header": "Dialog is {{id}}",
+      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "button": {
+        "cancel": { "label": "Redirect to Home Page" },
+        "confirm": { "label": "Save" }
+      }
     }
   },
   "about": {

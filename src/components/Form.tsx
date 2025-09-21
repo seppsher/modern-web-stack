@@ -4,13 +4,21 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import {
+  Accordion,
+  Box,
   Button,
   Checkbox,
+  CloseButton,
   createListCollection,
+  Dialog,
   Field,
+  FileUpload,
+  HStack,
+  Icon,
   Input,
   NumberInput,
   Portal,
+  RadioGroup,
   Select,
   Switch,
   Textarea,
@@ -18,6 +26,9 @@ import {
 } from '@chakra-ui/react';
 import { toaster } from './ui/toaster';
 import { useTranslation } from 'react-i18next';
+import { LuUpload } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
+import { Routes } from '@/enums/Routes';
 
 export const Form = () => {
   type FormData = z.infer<typeof formSchema>;
@@ -38,6 +49,11 @@ export const Form = () => {
     }),
     number: z.number().gte(10),
     textarea: z.string().max(10, t('validations.maxLength')).optional(),
+    radio: z.string().refine((value) => value != null, {
+      message: t('validations.required'),
+    }),
+    // eslint-disable-next-line no-undef
+    files: z.array(z.instanceof(File)).min(1, t('validations.required')),
   });
 
   const form = useForm<FormData>({
@@ -48,6 +64,8 @@ export const Form = () => {
       number: 10,
     },
   });
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -71,6 +89,12 @@ export const Form = () => {
       type: 'success',
     });
   };
+
+  const radioItems = [
+    { label: 'Value 1', value: 'value1' },
+    { label: 'Value 2', value: 'value2' },
+    { label: 'Value 3', value: 'value3' },
+  ];
 
   return (
     <>
@@ -191,6 +215,135 @@ export const Form = () => {
             </NumberInput.Root>
             <Field.ErrorText>{errors.number?.message}</Field.ErrorText>
           </Field.Root>
+
+          <Field.Root invalid={!!errors.radio}>
+            <Field.Label>{t('form.radio.label')}</Field.Label>
+            <Controller
+              name="radio"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup.Root
+                  key="solid"
+                  variant="solid"
+                  name={field.name}
+                  value={field.value}
+                  onValueChange={({ value }) => {
+                    field.onChange(value);
+                  }}
+                >
+                  <HStack gap="6">
+                    {radioItems.map((item) => (
+                      <RadioGroup.Item key={item.value} value={item.value}>
+                        <RadioGroup.ItemHiddenInput onBlur={field.onBlur} />
+                        <RadioGroup.ItemIndicator />
+                        <RadioGroup.ItemText>{item.label}</RadioGroup.ItemText>
+                      </RadioGroup.Item>
+                    ))}
+                  </HStack>
+                </RadioGroup.Root>
+              )}
+            />
+            <Field.ErrorText>{errors.radio?.message}</Field.ErrorText>
+          </Field.Root>
+
+          <Field.Root invalid={!!errors.files}>
+            <Field.Label>{t('form.files.label')}</Field.Label>
+
+            <Controller
+              name="files"
+              control={control}
+              render={() => (
+                <FileUpload.Root maxW="xl" alignItems="stretch" maxFiles={10}>
+                  <FileUpload.HiddenInput />
+                  <FileUpload.Dropzone>
+                    <Icon size="md" color="fg.muted">
+                      <LuUpload />
+                    </Icon>
+                    <FileUpload.DropzoneContent>
+                      <Box>{t('form.files.dragAndDrop')}</Box>
+                      <Box color="fg.muted">{t('form.files.extensions')}</Box>
+                    </FileUpload.DropzoneContent>
+                  </FileUpload.Dropzone>
+                  <FileUpload.List />
+
+                  <FileUpload.ClearTrigger asChild>
+                    <CloseButton
+                      me="-1"
+                      size="xs"
+                      variant="plain"
+                      focusVisibleRing="inside"
+                      focusRingWidth="2px"
+                      pointerEvents="auto"
+                    />
+                  </FileUpload.ClearTrigger>
+                </FileUpload.Root>
+              )}
+            />
+
+            <Field.ErrorText>{errors.files?.message}</Field.ErrorText>
+          </Field.Root>
+
+          <Accordion.Root collapsible defaultValue={['b']}>
+            <Accordion.Item value="a">
+              <Accordion.ItemTrigger>
+                <h1>{t('form.accordion.header')}</h1>
+                <Accordion.ItemIndicator />
+              </Accordion.ItemTrigger>
+              <Accordion.ItemContent>
+                <Accordion.ItemBody>
+                  <div>{t('form.accordion.body')}</div>
+                  <Dialog.Root>
+                    <Dialog.Trigger asChild>
+                      <Button variant="outline" size="sm">
+                        {t('form.accordion.button.label')}
+                      </Button>
+                    </Dialog.Trigger>
+
+                    <Portal>
+                      <Dialog.Backdrop />
+                      <Dialog.Positioner>
+                        <Dialog.Content>
+                          <Dialog.Context>
+                            {(store) => (
+                              <Dialog.Body pt="6" spaceY="3">
+                                <p>
+                                  {t('form.dialog.header', {
+                                    id: store.open ? 'true' : 'false',
+                                  })}
+                                </p>
+                                <p>{t('form.dialog.body')}</p>
+                              </Dialog.Body>
+                            )}
+                          </Dialog.Context>
+
+                          <Dialog.Footer>
+                            <Button
+                              colorPalette="red"
+                              onClick={() => {
+                                navigate(Routes.About);
+                              }}
+                            >
+                              {t('form.dialog.button.cancel.label')}
+                            </Button>
+
+                            <Dialog.ActionTrigger asChild>
+                              <Button colorPalette="green">
+                                {t('form.dialog.button.confirm.label')}
+                              </Button>
+                            </Dialog.ActionTrigger>
+                          </Dialog.Footer>
+
+                          <Dialog.CloseTrigger asChild>
+                            <CloseButton size="sm" />
+                          </Dialog.CloseTrigger>
+                        </Dialog.Content>
+                      </Dialog.Positioner>
+                    </Portal>
+                  </Dialog.Root>
+                </Accordion.ItemBody>
+              </Accordion.ItemContent>
+            </Accordion.Item>
+          </Accordion.Root>
 
           <Button onClick={handleSubmit(onSubmit)}>
             {t('form.button.label')}
