@@ -25,6 +25,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { toaster } from './ui/toaster';
+import { useTranslation } from 'react-i18next';
 import { LuUpload } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
 import { Routes } from '@/enums/Routes';
@@ -32,25 +33,27 @@ import { Routes } from '@/enums/Routes';
 export const Form = () => {
   type FormData = z.infer<typeof formSchema>;
 
+  const { t } = useTranslation();
+
   const formSchema = z.object({
-    username: z.string().min(3, 'Name is required').max(20, 'Name is too long'),
-    framework: z.string({ message: 'Framework is required' }).array(),
+    username: z
+      .string()
+      .min(3, t('validations.required'))
+      .max(20, t('validations.maxLength')),
+    framework: z.string({ message: t('validations.required') }).array(),
     checkbox: z.boolean().refine((value) => value === true, {
-      message: 'Checkbox must be checked',
+      message: t('validations.checkbox.error'),
     }),
     switch: z.boolean().refine((value) => value === true, {
-      message: 'Switch must be toggled on',
+      message: t('validations.switch.error'),
     }),
     number: z.number().gte(10),
-    textarea: z
-      .string()
-      .max(10, 'Textarea must be max 10 characters long')
-      .optional(),
+    textarea: z.string().max(10, t('validations.maxLength')).optional(),
     radio: z.string().refine((value) => value != null, {
-      message: 'Radio must be selected',
+      message: t('validations.required'),
     }),
     // eslint-disable-next-line no-undef
-    files: z.array(z.instanceof(File)).min(1, 'At least one file is required'),
+    files: z.array(z.instanceof(File)).min(1, t('validations.required')),
   });
 
   const form = useForm<FormData>({
@@ -82,7 +85,7 @@ export const Form = () => {
 
   const onSubmit = () => {
     toaster.create({
-      description: 'Form saved successfully',
+      description: t('form.submit.success'),
       type: 'success',
     });
   };
@@ -98,10 +101,10 @@ export const Form = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <VStack gap={6} align="stretch" width={600} m="0 auto">
           <Field.Root invalid={!!errors.username}>
-            <Field.Label>Username</Field.Label>
+            <Field.Label>{t('form.username.label')}</Field.Label>
             <Input
               {...register('username')}
-              placeholder="Enter your username"
+              placeholder={t('form.username.placeholder')}
             />
             {errors.username && (
               <Field.ErrorText>{errors.username.message}</Field.ErrorText>
@@ -109,7 +112,7 @@ export const Form = () => {
           </Field.Root>
 
           <Field.Root invalid={!!errors.framework}>
-            <Field.Label>Framework</Field.Label>
+            <Field.Label>{t('form.framework.label')}</Field.Label>
             <Controller
               control={control}
               name="framework"
@@ -163,7 +166,7 @@ export const Form = () => {
                   <Checkbox.Control>
                     <Checkbox.Indicator />
                   </Checkbox.Control>
-                  <Checkbox.Label>Testowy label checkbox</Checkbox.Label>
+                  <Checkbox.Label>{t('form.checkbox.label')}</Checkbox.Label>
                 </Checkbox.Root>
               )}
             ></Controller>
@@ -184,7 +187,7 @@ export const Form = () => {
                   <Switch.Control>
                     <Switch.Thumb />
                   </Switch.Control>
-                  <Switch.Label>Testowy label switch</Switch.Label>
+                  <Switch.Label>{t('form.switch.label')}</Switch.Label>
                 </Switch.Root>
               )}
             ></Controller>
@@ -202,7 +205,7 @@ export const Form = () => {
           </Field.Root>
 
           <Field.Root invalid={!!errors.number}>
-            <Field.Label>Testowy label number</Field.Label>
+            <Field.Label>{t('form.number.label')}</Field.Label>
 
             <NumberInput.Root>
               <NumberInput.Control />
@@ -214,7 +217,7 @@ export const Form = () => {
           </Field.Root>
 
           <Field.Root invalid={!!errors.radio}>
-            <Field.Label>Radio label</Field.Label>
+            <Field.Label>{t('form.radio.label')}</Field.Label>
             <Controller
               name="radio"
               control={control}
@@ -244,7 +247,7 @@ export const Form = () => {
           </Field.Root>
 
           <Field.Root invalid={!!errors.files}>
-            <Field.Label>Upload file zone</Field.Label>
+            <Field.Label>{t('form.files.label')}</Field.Label>
 
             <Controller
               name="files"
@@ -257,8 +260,8 @@ export const Form = () => {
                       <LuUpload />
                     </Icon>
                     <FileUpload.DropzoneContent>
-                      <Box>Drag and drop files here</Box>
-                      <Box color="fg.muted">.png, .jpg up to 5MB</Box>
+                      <Box>{t('form.files.dragAndDrop')}</Box>
+                      <Box color="fg.muted">{t('form.files.extensions')}</Box>
                     </FileUpload.DropzoneContent>
                   </FileUpload.Dropzone>
                   <FileUpload.List />
@@ -283,16 +286,16 @@ export const Form = () => {
           <Accordion.Root collapsible defaultValue={['b']}>
             <Accordion.Item value="a">
               <Accordion.ItemTrigger>
-                <h1>Expand item to show dialog</h1>
+                <h1>{t('form.accordion.header')}</h1>
                 <Accordion.ItemIndicator />
               </Accordion.ItemTrigger>
               <Accordion.ItemContent>
                 <Accordion.ItemBody>
-                  <div>Lorem ipsum dolor sit amet</div>
+                  <div>{t('form.accordion.body')}</div>
                   <Dialog.Root>
                     <Dialog.Trigger asChild>
                       <Button variant="outline" size="sm">
-                        Open Dialog
+                        {t('form.accordion.button.label')}
                       </Button>
                     </Dialog.Trigger>
 
@@ -304,14 +307,11 @@ export const Form = () => {
                             {(store) => (
                               <Dialog.Body pt="6" spaceY="3">
                                 <p>
-                                  Dialog is open:{' '}
-                                  {store.open ? 'true' : 'false'}
+                                  {t('form.dialog.header', {
+                                    id: store.open ? 'true' : 'false',
+                                  })}
                                 </p>
-                                <p>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Sed do eiusmod tempor
-                                  incididunt ut labore et dolore magna aliqua.
-                                </p>
+                                <p>{t('form.dialog.body')}</p>
                               </Dialog.Body>
                             )}
                           </Dialog.Context>
@@ -323,11 +323,13 @@ export const Form = () => {
                                 navigate(Routes.About);
                               }}
                             >
-                              Redirect to Home Page
+                              {t('form.dialog.button.cancel.label')}
                             </Button>
 
                             <Dialog.ActionTrigger asChild>
-                              <Button colorPalette="green">Save changes</Button>
+                              <Button colorPalette="green">
+                                {t('form.dialog.button.confirm.label')}
+                              </Button>
                             </Dialog.ActionTrigger>
                           </Dialog.Footer>
 
@@ -343,7 +345,9 @@ export const Form = () => {
             </Accordion.Item>
           </Accordion.Root>
 
-          <Button onClick={handleSubmit(onSubmit)}>Wyślij</Button>
+          <Button onClick={handleSubmit(onSubmit)}>
+            {t('form.button.label')}
+          </Button>
         </VStack>
       </form>
     </>
