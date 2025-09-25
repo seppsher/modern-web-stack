@@ -10,6 +10,7 @@ import { HStack, Button, Container } from '@chakra-ui/react';
 import { Toaster } from './components/ui/toaster';
 import '../i18n';
 import { useTranslation } from 'react-i18next';
+import { Counter } from './components/Counter';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -20,7 +21,7 @@ function App() {
 
   return (
     <Provider>
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <Container>
           <HStack mb={20}>
             <Button variant="subtle">
@@ -34,6 +35,9 @@ function App() {
             </Button>
             <Button variant="subtle">
               <Link to={RoutesEnum.Form}>{t('menu.form')}</Link>
+            </Button>
+            <Button variant="subtle">
+              <Link to={RoutesEnum.Counter}>{t('menu.counter')}</Link>
             </Button>
 
             <Button onClick={() => changeLanguage('en')}>
@@ -49,6 +53,7 @@ function App() {
             <Route path={RoutesEnum.About} element={<About />} />
             <Route path={RoutesEnum.UserDetails} element={<UserDetails />} />
             <Route path={RoutesEnum.Form} element={<Form />} />
+            <Route path={RoutesEnum.Counter} element={<Counter />} />
           </Routes>
           <Toaster />
         </Container>

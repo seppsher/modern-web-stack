@@ -4,4 +4,5 @@ export enum Routes {
   User = '/user',
   UserDetails = '/user/:id',
   Form = '/form',
+  Counter = '/counter',
 }

@@ -4,6 +4,7 @@
     "about": "About",
     "user": "User",
     "form": "Form",
+    "counter": "Counter",
     "language": {
       "english": "English",
       "polish": "Polish"
@@ -64,6 +65,9 @@
   },
   "user": {
     "header": "User ID: {{id}}"
+  },
+  "counter": {
+    "button": "Increment the counter +"
   },
   "validations": {
     "required": "This field is required",

@@ -4,6 +4,7 @@
     "about": "O nas",
     "user": "Użytkownik",
     "form": "Formularz",
+    "counter": "Licznik",
     "language": {
       "english": "Angielski",
       "polish": "Polski"
@@ -64,6 +65,9 @@
   },
   "user": {
     "header": "ID użytkownika: {{id}}"
+  },
+  "counter": {
+    "button": "Zwiększ licznik +"
   },
   "validations": {
     "required": "To pole jest wymagane",
