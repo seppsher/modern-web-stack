@@ -52,7 +52,6 @@ export const Form = () => {
     radio: z.string().refine((value) => value != null, {
       message: t('validations.required'),
     }),
-    // eslint-disable-next-line no-undef
     files: z.array(z.instanceof(File)).min(1, t('validations.required')),
   });
 

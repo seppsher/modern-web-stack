@@ -64,7 +64,10 @@
     "button": "Przejdź do strony O nas"
   },
   "user": {
-    "header": "ID użytkownika: {{id}}"
+    "header": "ID użytkownika: {{id}}",
+    "friends": {
+      "header": "Lista znajomych"
+    }
   },
   "counter": {
     "button": "Zwiększ licznik +"

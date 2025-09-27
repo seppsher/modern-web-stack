@@ -1,2 +1,1 @@
-echo "🔍 Running ESLint before push..."
-npm run lint
+npx lint-staged
