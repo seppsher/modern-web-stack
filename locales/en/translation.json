@@ -64,7 +64,10 @@
     "button": "Navigate to About page"
   },
   "user": {
-    "header": "User ID: {{id}}"
+    "header": "User ID: {{id}}",
+    "products": {
+      "header": "Product list"
+    }
   },
   "counter": {
     "button": "Increment the counter +"

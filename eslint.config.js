@@ -28,6 +28,8 @@ export default [
         Document: 'readonly',
         Window: 'readonly',
         HTMLButtonElement: 'readonly',
+        ...globals.node,
+        fetch: 'readonly',
       },
     },
     plugins: {
