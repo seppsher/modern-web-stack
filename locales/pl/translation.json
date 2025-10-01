@@ -65,8 +65,8 @@
   },
   "user": {
     "header": "ID użytkownika: {{id}}",
-    "friends": {
-      "header": "Lista znajomych"
+    "products": {
+      "header": "Lista produktów"
     }
   },
   "counter": {

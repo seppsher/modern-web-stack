@@ -8,12 +8,6 @@ import prettierConfig from 'eslint-config-prettier';
 
 import globals from 'globals';
 
-const GLOBALS_BROWSER_FIX = Object.assign({}, globals.browser, {
-  AudioWorkletGlobalScope: globals.browser['AudioWorkletGlobalScope '],
-});
-
-delete GLOBALS_BROWSER_FIX['AudioWorkletGlobalScope '];
-
 export default [
   js.configs.recommended,
 
@@ -35,7 +29,7 @@ export default [
         Window: 'readonly',
         HTMLButtonElement: 'readonly',
         ...globals.node,
-        ...GLOBALS_BROWSER_FIX,
+        fetch: 'readonly',
       },
     },
     plugins: {
