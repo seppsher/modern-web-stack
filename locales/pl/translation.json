@@ -4,6 +4,7 @@
     "about": "O nas",
     "user": "Użytkownik",
     "form": "Formularz",
+    "product": "Produkt",
     "counter": "Licznik",
     "language": {
       "english": "Angielski",
@@ -71,6 +72,25 @@
   },
   "counter": {
     "button": "Zwiększ licznik +"
+  },
+  "product": {
+    "header": "Dodawanie produktu",
+    "name": {
+      "label": "Nazwa produktu",
+      "placeholder": "Wpisz nazwę produktu"
+    },
+    "brand": {
+      "label": "Marka",
+      "placeholder": "Wpisz markę"
+    },
+    "form": {
+      "submit": {
+        "success": "Produkt dodany pomyślnie"
+      }
+    },
+    "button": {
+      "label": "Dodaj produkt"
+    }
   },
   "validations": {
     "required": "To pole jest wymagane",

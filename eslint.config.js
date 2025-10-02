@@ -30,6 +30,7 @@ export default [
         HTMLButtonElement: 'readonly',
         ...globals.node,
         fetch: 'readonly',
+        File: 'readonly',
       },
     },
     plugins: {
