@@ -12,6 +12,7 @@ import '../i18n';
 import { useTranslation } from 'react-i18next';
 import { Counter } from './components/Counter';
 import { LoaderProvider } from './components/Loader';
+import { Product } from './components/Product';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -41,6 +42,9 @@ function App() {
               <Button variant="subtle">
                 <Link to={RoutesEnum.Counter}>{t('menu.counter')}</Link>
               </Button>
+              <Button variant="subtle">
+                <Link to={RoutesEnum.Product}>{t('menu.product')}</Link>
+              </Button>
 
               <Button onClick={() => changeLanguage('en')}>
                 {t('menu.language.english')}
@@ -56,6 +60,7 @@ function App() {
               <Route path={RoutesEnum.UserDetails} element={<UserDetails />} />
               <Route path={RoutesEnum.Form} element={<Form />} />
               <Route path={RoutesEnum.Counter} element={<Counter />} />
+              <Route path={RoutesEnum.Product} element={<Product />} />
             </Routes>
             <Toaster />
           </Container>

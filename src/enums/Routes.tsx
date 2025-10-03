@@ -5,4 +5,5 @@ export enum Routes {
   UserDetails = '/user/:id',
   Form = '/form',
   Counter = '/counter',
+  Product = '/product',
 }

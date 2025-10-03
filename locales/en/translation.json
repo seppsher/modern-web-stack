@@ -5,6 +5,7 @@
     "user": "User",
     "form": "Form",
     "counter": "Counter",
+    "product": "Product",
     "language": {
       "english": "English",
       "polish": "Polish"
@@ -71,6 +72,25 @@
   },
   "counter": {
     "button": "Increment the counter +"
+  },
+  "product": {
+    "header": "Add Product",
+    "name": {
+      "label": "Product Name",
+      "placeholder": "Enter product name"
+    },
+    "brand": {
+      "label": "Brand",
+      "placeholder": "Enter brand"
+    },
+    "form": {
+      "submit": {
+        "success": "Product added successfully"
+      }
+    },
+    "button": {
+      "label": "Add Product"
+    }
   },
   "validations": {
     "required": "This field is required",
