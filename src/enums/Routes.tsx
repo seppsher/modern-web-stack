@@ -6,4 +6,6 @@ export enum Routes {
   Form = '/form',
   Counter = '/counter',
   Product = '/product',
+  ProductDetails = '/product/:id',
+  EditProduct = '/product/:id/edit',
 }
