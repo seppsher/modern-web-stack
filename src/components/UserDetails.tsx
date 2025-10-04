@@ -53,10 +53,12 @@ export const UserDetails = () => {
           {products.map((product) => (
             <li key={product.id} style={{ cursor: 'pointer' }}>
               {product.id}. {product.name} {product.brand}
-              <Button onClick={() => showDetails(product.id)}>
-                Show details
-              </Button>
-              <Button onClick={() => edit(product.id)}>Edit</Button>
+              <HStack>
+                <Button onClick={() => showDetails(product.id)}>
+                  Show details
+                </Button>
+                <Button onClick={() => edit(product.id)}>Edit</Button>
+              </HStack>
             </li>
           ))}
         </ul>

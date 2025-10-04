@@ -14,6 +14,7 @@ import { Counter } from './components/Counter';
 import { LoaderProvider } from './components/Loader';
 import { Product } from './components/Product';
 import { ProductDetails } from './components/ProductDetails';
+import { EditProduct } from './components/EditProduct';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -66,6 +67,7 @@ function App() {
                 path={RoutesEnum.ProductDetails}
                 element={<ProductDetails />}
               />
+              <Route path={RoutesEnum.EditProduct} element={<EditProduct />} />
             </Routes>
             <Toaster />
           </Container>
