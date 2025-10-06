@@ -1,13 +1,24 @@
 import { HStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useLoader } from './Loader';
 import { Product } from '@/models/product.interface';
+import { Routes } from '@/enums/Routes';
+import { Button } from '@chakra-ui/react';
 
 export const UserDetails = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
+
+  const navigate = useNavigate();
+
+  const showDetails = (id) => {
+    navigate(Routes.ProductDetails.replace(':id', id));
+  };
+  const edit = (id) => {
+    navigate(Routes.EditProduct.replace(':id', id));
+  };
 
   const [products, setProducts] = useState<Product[]>([]);
   const { startLoading, stopLoading } = useLoader();
@@ -42,6 +53,12 @@ export const UserDetails = () => {
           {products.map((product) => (
             <li key={product.id}>
               {product.id}. {product.name} {product.brand}
+              <HStack>
+                <Button onClick={() => showDetails(product.id)}>
+                  Show details
+                </Button>
+                <Button onClick={() => edit(product.id)}>Edit</Button>
+              </HStack>
             </li>
           ))}
         </ul>
