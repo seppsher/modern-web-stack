@@ -36,7 +36,39 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const body = await request.json();
+    const db = openDb('./products.db');
+
+    const { id } = await params;
+
+    const fields = Object.keys(body).filter((key) => body[key] !== undefined);
+
+    const setClause = fields.map((field) => `${field} = ?`).join(', ');
+    const values = fields.map((field) => body[field]);
+    values.push(id);
+    const sql = `UPDATE products SET ${setClause} WHERE id = ?`;
+
+    const stmt = db.prepare(sql);
+
+    stmt.run(values);
+
+    await db.close();
+
+    return NextResponse.json({});
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Invalid data', details: error.errors },
+      { status: 400 }
+    );
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await request.json();
