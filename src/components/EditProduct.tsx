@@ -54,7 +54,7 @@ export const EditProduct = () => {
     startLoading();
     try {
       await fetch(`/api/product/${id}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
