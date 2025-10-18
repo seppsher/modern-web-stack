@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import DatabaseConstructor, { Database } from 'better-sqlite3';
-
-function openDb(filename: string): Database {
-  let db: Database = new DatabaseConstructor(filename);
-  return db;
-}
+import { neon } from '@neondatabase/serverless';
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,12 +8,15 @@ export async function GET(request: NextRequest) {
     const pathSegments = url.pathname.split('/');
     const id = pathSegments[pathSegments.length - 1];
 
-    const db = openDb('./products.db');
+    const sql = neon(`${process.env.DATABASE_URL}`);
+    const product = (await sql`SELECT * FROM products WHERE id = ${id}`)[0];
 
-    const stmt = db.prepare('SELECT * FROM products WHERE id = ?');
-    const product = stmt.get(parseInt(id));
-
-    await db.close();
+    if (!product) {
+      return NextResponse.json(
+        { error: 'Produkt nie znaleziony' },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json({
       id: product.id,
@@ -34,62 +32,46 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const body = await request.json();
-    const db = openDb('./products.db');
-
-    const { id } = await params;
-
-    const fields = Object.keys(body).filter((key) => body[key] !== undefined);
-
-    const setClause = fields.map((field) => `${field} = ?`).join(', ');
-    const values = fields.map((field) => body[field]);
-    values.push(id);
-    const sql = `UPDATE products SET ${setClause} WHERE id = ?`;
-
-    const stmt = db.prepare(sql);
-
-    stmt.run(values);
-
-    await db.close();
-
-    return NextResponse.json({});
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Invalid data', details: error.errors },
-      { status: 400 }
-    );
-  }
-}
-
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await request.json();
-    const db = openDb('./products.db');
+
+    const { name, brand } = body;
+
+    const sql = neon(`${process.env.DATABASE_URL}`);
 
     const { id } = await params;
 
-    const fields = Object.keys(body).filter((key) => body[key] !== undefined);
+    const existingProduct = await sql`
+      SELECT id FROM products WHERE id = ${id}
+    `;
 
-    const setClause = fields.map((field) => `${field} = ?`).join(', ');
-    const values = fields.map((field) => body[field]);
-    values.push(id);
-    const sql = `UPDATE products SET ${setClause} WHERE id = ?`;
+    if (existingProduct.length === 0) {
+      return NextResponse.json(
+        { success: false, error: 'Product not found' },
+        { status: 404 }
+      );
+    }
 
-    const stmt = db.prepare(sql);
+    const result = await sql`
+      UPDATE products
+      SET
+        name = COALESCE(${name}, name),
+        brand = COALESCE(${brand}, brand)
+      WHERE id = ${id}
+      RETURNING *
+    `;
 
-    stmt.run(values);
+    console.log(result);
 
-    await db.close();
-
-    return NextResponse.json({});
+    return NextResponse.json({
+      success: true,
+      data: result[0],
+      message: 'Product updated successfully',
+    });
   } catch (error) {
     return NextResponse.json(
       { error: 'Invalid data', details: error.errors },

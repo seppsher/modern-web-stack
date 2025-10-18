@@ -17,8 +17,7 @@ export const ProductDetails = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const { startLoading, stopLoading } = useLoader();
 
-  const [name, setName] = useState('');
-  const debouncedName = useDebounce(name, 1000);
+  const processChange = useDebounce((value) => saveData(value));
 
   type FormData = z.infer<typeof formSchema>;
 
@@ -56,34 +55,26 @@ export const ProductDetails = () => {
     fetchProductDetails();
   }, []);
 
-  useEffect(() => {
-    const saveData = async () => {
-      try {
-        await fetch(`/api/product/${id}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ name: debouncedName }),
-        });
+  const saveData = async (value) => {
+    try {
+      await fetch(`/api/product/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: value }),
+      });
 
-        toaster.create({
-          // description: t('product.form.submit.success'),
-          description: 'Nazwa produktu zaktualizowana pomyślnie',
-          type: 'success',
-        });
-      } catch (error) {
-        console.error('Błąd:', error);
-      } finally {
-        stopLoading();
-      }
-    };
-
-    saveData();
-  }, [debouncedName]);
-
-  const handleInputChange = (event) => {
-    setName(event.target.value);
+      toaster.create({
+        // description: t('product.form.submit.success'),
+        description: 'Nazwa produktu zaktualizowana pomyślnie',
+        type: 'success',
+      });
+    } catch (error) {
+      console.error('Błąd:', error);
+    } finally {
+      stopLoading();
+    }
   };
 
   return (
@@ -95,7 +86,7 @@ export const ProductDetails = () => {
           <Field.Label>{t('product.name.label')}</Field.Label>
           <Input
             {...register('name')}
-            onChange={handleInputChange}
+            onChange={(event) => processChange(event.target.value)}
             placeholder={t('product.name.placeholder')}
           />
           <Field.ErrorText>{errors.name?.message}</Field.ErrorText>
